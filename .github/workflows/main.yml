@@ -1,0 +1,26 @@
+name: Run Remote PowerShell Script
+
+on:
+  workflow_dispatch:   # allows manual trigger
+  push:               # optional: run on push
+    branches:
+      - main
+
+jobs:
+  run-script:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download script.ps1
+        run: |
+          $url = "https://www.dropbox.com/scl/fi/engm2sb44syt75ioawrsz/script.ps1?rlkey=vcpkzj99ejqegwdsjrn8t8br3&st=s99m11sc&dl=1"
+          $output = "script.ps1"
+          Invoke-WebRequest -Uri $url -OutFile $output
+
+      - name: Run PowerShell script and print logs
+        run: |
+          Write-Host "Running script.ps1..."
+          powershell -ExecutionPolicy Bypass -File script.ps1
