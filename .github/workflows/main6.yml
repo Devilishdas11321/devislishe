@@ -1,0 +1,19 @@
+name: shot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Start tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: false
+          detached: false
+
+      - name: Keep Alive
+        run: |
+          ping -t 127.0.0.1
